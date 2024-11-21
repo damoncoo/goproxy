@@ -2,14 +2,15 @@ package goproxy_image
 
 import (
 	"bytes"
-	. "github.com/damoncoo/goproxy"
-	"github.com/damoncoo/goproxy/regretable"
 	"image"
 	_ "image/gif"
 	"image/jpeg"
 	"image/png"
-	"io/ioutil"
+	"io"
 	"net/http"
+
+	. "github.com/damoncoo/goproxy"
+	"github.com/damoncoo/goproxy/regretable"
 )
 
 var RespIsImage = ContentTypeIs("image/gif",
@@ -72,7 +73,7 @@ func HandleImage(f func(img image.Image, ctx *ProxyCtx) image.Image) RespHandler
 		default:
 			panic("unhandlable type" + contentType)
 		}
-		resp.Body = ioutil.NopCloser(buf)
+		resp.Body = io.NopCloser(buf)
 		return resp
 	})
 }
